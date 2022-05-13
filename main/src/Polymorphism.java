@@ -32,7 +32,7 @@ public class Polymorphism {
         //Coffee1 coffee 이 부분을 확인하여 서로 상속관계인지를 확인하는 것이다
 
         System.out.println(latte instanceof Coffee1);
-        System.out.println(coffee instanceof Coffee1);
+        System.out.println(coffee instanceof Coffee1); 
         System.out.println(americano2 instanceof Coffee1);
         System.out.println(coffee2 instanceof Americano1);  //얘도 Americano1로 타입 변환이 가능하다
         System.out.println(coffee instanceof Americano1);  //얘도 Americano1로 타입 변환이 가능하다

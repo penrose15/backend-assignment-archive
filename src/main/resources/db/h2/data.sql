@@ -1,0 +1,1 @@
+--INSERT INTO message (message) VALUES ('Hi, world')

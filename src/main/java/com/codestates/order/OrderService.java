@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// TODO V10
 @Service
 public class OrderService {
     private OrderRepository orderRepository;
@@ -16,7 +17,6 @@ public class OrderService {
     public Orders createOrder(Orders order) {
         // TODO 회원이 존재하는지 조회해야 됨
         // TODO 커피가 존재하는지 조회해야 됨
-        order.setCreatedAt(LocalDateTime.now());
         return orderRepository.save(order);
     }
 

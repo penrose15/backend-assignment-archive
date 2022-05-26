@@ -27,7 +27,6 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity postOrder(@Valid @RequestBody OrderPostDto orderPostDto) {
-        // TODO mapper가 List<OrderCoffee>의 데이터를 Order 멤버와 매핑할 수 있는 처리를 해줘야 됨.
         Orders order = orderService.createOrder(mapper.orderPostDtoToOrder(orderPostDto));
         return new ResponseEntity<>(mapper.orderToOrderResponseDto(order), HttpStatus.CREATED);
     }

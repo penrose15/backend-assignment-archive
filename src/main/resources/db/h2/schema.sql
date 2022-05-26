@@ -1,22 +1,40 @@
 CREATE TABLE IF NOT EXISTS MESSAGE (
-    message_id bigint NOT NULL AUTO_INCREMENT,
-    message varchar(100) NOT NULL,
-    PRIMARY KEY (message_id)
+    MESSAGE_ID bigint NOT NULL AUTO_INCREMENT,
+    MESSAGE varchar(100) NOT NULL,
+    PRIMARY KEY (MESSAGE_ID)
 );
 
 CREATE TABLE IF NOT EXISTS MEMBER (
-    member_id bigint NOT NULL AUTO_INCREMENT,
-    email varchar(100) NOT NULL,
-    name varchar(100) NOT NULL,
-    phone varchar(100) NOT NULL,
-    PRIMARY KEY (member_id)
+    MEMBER_ID bigint NOT NULL AUTO_INCREMENT,
+    EMAIL varchar(100) NOT NULL,
+    NAME varchar(100) NOT NULL,
+    PHONE varchar(100) NOT NULL,
+    PRIMARY KEY (MEMBER_ID)
+);
+
+CREATE TABLE IF NOT EXISTS COFFEE (
+    COFFEE_ID bigint NOT NULL AUTO_INCREMENT,
+    KOR_NAME varchar(100) NOT NULL,
+    ENG_NAME varchar(100) NOT NULL,
+    PRICE number NOT NULL,
+    PRIMARY KEY (COFFEE_ID)
 );
 
 CREATE TABLE IF NOT EXISTS ORDERS (
-    order_id bigint NOT NULL AUTO_INCREMENT,
-    member_id bigint NOT NULL,
---    created_at datetime NOT NULL,
-    PRIMARY KEY (member_id),
-    FOREIGN KEY (member_id) REFERENCES MEMBER(member_id)
+    ORDER_ID bigint NOT NULL AUTO_INCREMENT,
+    MEMBER_ID bigint NOT NULL,
+    CREATED_AT datetime NOT NULL,
+    PRIMARY KEY (ORDER_ID),
+    FOREIGN KEY (MEMBER_ID) REFERENCES MEMBER(MEMBER_ID)
+);
+
+CREATE TABLE IF NOT EXISTS ORDER_COFFEE (
+--    order_coffee_id bigint NOT NULL AUTO_INCREMENT,
+    ORDER_ID bigint NOT NULL,
+    COFFEE_ID bigint NOT NULL,
+    QUANTITY int NOT NULL,
+--    PRIMARY KEY (order_coffee_id),
+    FOREIGN KEY (ORDER_ID) REFERENCES ORDERS(ORDER_ID),
+    FOREIGN KEY (COFFEE_ID) REFERENCES COFFEE(COFFEE_ID)
 );
 

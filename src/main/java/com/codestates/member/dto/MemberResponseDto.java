@@ -1,14 +1,10 @@
 package com.codestates.member.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+// TODO 변경: Builder 패턴 적용
+@Builder
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class MemberResponseDto {
     private long memberId;
     private String email;

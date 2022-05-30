@@ -1,7 +1,7 @@
 package com.codestates.order.mapper;
 
 import com.codestates.coffee.entity.CoffeeRef;
-import com.codestates.order.Orders;
+import com.codestates.order.Order;
 import com.codestates.order.dto.OrderCoffeeDto;
 import com.codestates.order.dto.OrderPostDto;
 import com.codestates.order.dto.OrderResponseDto;
@@ -16,20 +16,20 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     // TODO 수정되었음.
-    default Orders orderPostDtoToOrder(OrderPostDto orderPostDto) {
-        Orders orders = new Orders();
-        orders.setMemberId(new AggregateReference.IdOnlyAggregateReference(orderPostDto.getMemberId()));
+    default Order orderPostDtoToOrder(OrderPostDto orderPostDto) {
+        Order order = new Order();
+        order.setMemberId(new AggregateReference.IdOnlyAggregateReference(orderPostDto.getMemberId()));
         Set<CoffeeRef> orderCoffees = orderPostDto.getOrderCoffees()
                 .stream()
                 .map(orderCoffeeDto -> new CoffeeRef(orderCoffeeDto.getCoffeeId(),
                         orderCoffeeDto.getQuantity()))
                 .collect(Collectors.toSet());
-        orders.setOrderCoffees(orderCoffees);
-        orders.setCreatedAt(LocalDateTime.now());
-        return orders;
+        order.setOrderCoffees(orderCoffees);
+        order.setCreatedAt(LocalDateTime.now());
+        return order;
     }
 
-    default OrderResponseDto orderToOrderResponseDto(Orders order) {
+    default OrderResponseDto orderToOrderResponseDto(Order order) {
         Set<OrderCoffeeDto> orderCoffees = order.getOrderCoffees()
                 .stream()
                 .map(coffeeRef -> new OrderCoffeeDto(coffeeRef.getCoffeeId(),
@@ -42,6 +42,7 @@ public interface OrderMapper {
         orderResponseDto.setMemberId(memberId);
         orderResponseDto.setCreatedAt(order.getCreatedAt());
         orderResponseDto.setOrderId(order.getOrderId());
+        orderResponseDto.setOrderStatus(order.getOrderStatus());
 
         return orderResponseDto;
     }

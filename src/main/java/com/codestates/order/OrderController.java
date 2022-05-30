@@ -27,20 +27,20 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity postOrder(@Valid @RequestBody OrderPostDto orderPostDto) {
-        Orders order = orderService.createOrder(mapper.orderPostDtoToOrder(orderPostDto));
+        Order order = orderService.createOrder(mapper.orderPostDtoToOrder(orderPostDto));
         return new ResponseEntity<>(mapper.orderToOrderResponseDto(order), HttpStatus.CREATED);
     }
 
     @GetMapping("/{order-id}")
     public ResponseEntity getOrder(@PathVariable("order-id") @Positive long orderId) {
-        Orders order = orderService.findOrder(orderId);
+        Order order = orderService.findOrder(orderId);
 
         return new ResponseEntity<>(mapper.orderToOrderResponseDto(order), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getOrders() {
-        List<Orders> orders = orderService.findOrders();
+        List<Order> orders = orderService.findOrders();
 
         List<OrderResponseDto> response = orders.stream()
                                                 .map(order -> mapper.orderToOrderResponseDto(order))
@@ -50,8 +50,8 @@ public class OrderController {
     }
 
     @DeleteMapping("/{order-id}")
-    public void cancelOrder(@PathVariable("order-id") long orderId) {
-        System.out.println("# cancel order");
-        orderService.cancelOrder();
+    public ResponseEntity cancelOrder(@PathVariable("order-id") @Positive long orderId) {
+        orderService.cancelOrder(orderId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

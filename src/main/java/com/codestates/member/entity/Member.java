@@ -16,7 +16,7 @@ import org.springframework.data.annotation.Id;
 @AllArgsConstructor
 public class Member {
     @Id
-    private long memberId;
+    private Long memberId;
 
     private String email;
 

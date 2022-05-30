@@ -1,11 +1,14 @@
 package com.codestates.coffee.dto;
 
 import com.codestates.validator.NotSpace;
+import lombok.Getter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Pattern;
 import java.util.Optional;
 
+// TODO v10: Getter/Setter 수정
+@Getter
 public class CoffeePatchDto {
     private long coffeeId;
 
@@ -17,35 +20,13 @@ public class CoffeePatchDto {
 
     private Optional<@Range(min= 100, max= 50000) Integer> price = Optional.empty();
 
-    public long getCoffeeId() {
-        return coffeeId;
-    }
+
 
     public void setCoffeeId(long coffeeId) {
         this.coffeeId = coffeeId;
     }
 
-    public String getKorName() {
-        return korName;
-    }
-
-    public void setKorName(String korName) {
-        this.korName = korName;
-    }
-
-    public String getEngName() {
-        return engName;
-    }
-
-    public void setEngName(String engName) {
-        this.engName = engName;
-    }
-
     public int getPrice() {
         return price.orElse(0);
-    }
-
-    public void setPrice(Optional<Integer> price) {
-        this.price = price;
     }
 }

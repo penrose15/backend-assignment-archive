@@ -50,6 +50,8 @@ public class Order {
 
         @Getter
         private int stepNumber;
+
+        @Getter
         private String stepDescription;
 
         OrderStatus(int stepNumber, String stepDescription) {

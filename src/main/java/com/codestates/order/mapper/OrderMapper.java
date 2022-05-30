@@ -44,6 +44,8 @@ public interface OrderMapper {
         orderResponseDto.setOrderId(order.getOrderId());
         orderResponseDto.setOrderStatus(order.getOrderStatus());
 
+        // TODO 주문에 대한 더 자세한 정보로의 변환은 요구 사항에 따라 다를 수 있습니다.
+
         return orderResponseDto;
     }
 }

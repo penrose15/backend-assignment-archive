@@ -9,3 +9,9 @@ spring:
     init:
       schema-locations: classpath*:db/h2/schema.sql
       data-locations: classpath*:db/h2/data.sql
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: TRACE

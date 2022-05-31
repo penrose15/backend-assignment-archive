@@ -1,9 +1,11 @@
 package com.codestates.order.dto;
 
+import com.codestates.coffee.dto.CoffeeResponseDto;
 import com.codestates.order.Order;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 
@@ -14,6 +16,6 @@ public class OrderResponseDto {
     private long orderId;
     private long memberId;
     private Order.OrderStatus orderStatus;
-    private Set<OrderCoffeeDto> orderCoffees;
+    private List<CoffeeResponseDto> orderCoffees;
     private LocalDateTime createdAt;
 }

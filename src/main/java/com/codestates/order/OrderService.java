@@ -41,8 +41,6 @@ public class OrderService {
         return findVerifiedOrder(orderId);
     }
 
-    // 주문 수정 메서드는 사용하지 않습니다.
-
     public List<Order> findOrders() {
         return (List<Order>) orderRepository.findAll();
     }

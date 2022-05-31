@@ -1,5 +1,7 @@
 package com.codestates.order.mapper;
 
+import com.codestates.coffee.dto.CoffeeResponseDto;
+import com.codestates.coffee.entity.Coffee;
 import com.codestates.coffee.entity.CoffeeRef;
 import com.codestates.order.Order;
 import com.codestates.order.dto.OrderCoffeeDto;
@@ -9,6 +11,7 @@ import org.mapstruct.Mapper;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,12 +32,16 @@ public interface OrderMapper {
         return order;
     }
 
-    default OrderResponseDto orderToOrderResponseDto(Order order) {
-        Set<OrderCoffeeDto> orderCoffees = order.getOrderCoffees()
-                .stream()
-                .map(coffeeRef -> new OrderCoffeeDto(coffeeRef.getCoffeeId(),
-                        coffeeRef.getQuantity()))
-                .collect(Collectors.toSet());
+    default OrderResponseDto orderToOrderResponseDto(Order order, List<Coffee> coffees) {
+        List<CoffeeResponseDto> orderCoffees =
+                coffees
+                        .stream()
+                        .map(coffee ->
+                                new CoffeeResponseDto(coffee.getCoffeeId(),
+                                        coffee.getKorName(),
+                                        coffee.getEngName(),
+                                        coffee.getPrice()))
+                        .collect(Collectors.toList());
         long memberId = order.getMemberId().getId();
 
         OrderResponseDto orderResponseDto = new OrderResponseDto();

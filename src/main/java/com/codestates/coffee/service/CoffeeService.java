@@ -4,10 +4,12 @@ import com.codestates.coffee.CoffeeRepository;
 import com.codestates.coffee.entity.Coffee;
 import com.codestates.exception.BusinessLogicException;
 import com.codestates.exception.ExceptionCode;
+import com.codestates.order.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CoffeeService {
@@ -44,6 +46,13 @@ public class CoffeeService {
 
     public Coffee findCoffee(long coffeeId) {
         return findVerifiedCoffeeByQuery(coffeeId);
+    }
+
+    public List<Coffee> findOrderedCoffees(Order order) {
+        return order.getOrderCoffees()
+                .stream()
+                .map(coffeeRef -> findCoffee(coffeeRef.getCoffeeId()))
+                .collect(Collectors.toList());
     }
 
     public List<Coffee> findCoffees() {

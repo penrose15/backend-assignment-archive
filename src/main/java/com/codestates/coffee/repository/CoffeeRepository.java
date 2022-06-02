@@ -1,4 +1,4 @@
-package com.codestates.coffee;
+package com.codestates.coffee.repository;
 
 import com.codestates.coffee.entity.Coffee;
 import org.springframework.data.jdbc.repository.query.Query;

@@ -1,12 +1,11 @@
 package com.codestates.order.dto;
 
 import com.codestates.coffee.dto.CoffeeResponseDto;
-import com.codestates.order.Order;
+import com.codestates.order.entity.Order;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 
 // TODO V10

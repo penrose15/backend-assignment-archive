@@ -1,4 +1,4 @@
-package com.codestates.order;
+package com.codestates.order.entity;
 
 import com.codestates.coffee.entity.CoffeeRef;
 import com.codestates.member.entity.Member;
@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 // TODO V10
@@ -21,26 +21,14 @@ public class Order {
     @Id
     private long orderId;
 
-    // Member 객체 참조 대신에 memberId를 참조하도록 한다.
+    // 테이블 외래키처럼 memberId를 추가해서 참조하도록 한다.
     private AggregateReference<Member, Long> memberId;
 
     @MappedCollection(idColumn = "ORDER_ID")
-    private Set<CoffeeRef> orderCoffees;
+    private Set<CoffeeRef> orderCoffees = new LinkedHashSet<>();
 
     private OrderStatus orderStatus = OrderStatus.ORDER_REQUEST;
     private LocalDateTime createdAt;
-
-    public Order() {
-        this.orderCoffees = new HashSet<>();
-    }
-
-    public void setMemberId(AggregateReference<Member, Long> memberId) {
-        this.memberId = memberId;
-    }
-
-    public void setOrderCoffees(Set<CoffeeRef> orderCoffees) {
-        this.orderCoffees = orderCoffees;
-    }
 
     public enum OrderStatus {
         ORDER_REQUEST(1, "주문 요청"),
@@ -59,5 +47,4 @@ public class Order {
             this.stepDescription = stepDescription;
         }
     }
-
 }

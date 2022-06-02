@@ -1,15 +1,16 @@
-package com.codestates.order;
+package com.codestates.order.service;
 
 import com.codestates.coffee.service.CoffeeService;
 import com.codestates.exception.BusinessLogicException;
 import com.codestates.exception.ExceptionCode;
 import com.codestates.member.service.MemberService;
+import com.codestates.order.entity.Order;
+import com.codestates.order.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-// TODO V10
 @Service
 public class OrderService {
     final private OrderRepository orderRepository;
@@ -49,7 +50,7 @@ public class OrderService {
         Order findOrder = findVerifiedOrder(orderId);
         int step = findOrder.getOrderStatus().getStepNumber();
 
-        // OrderStatus의 step이 2 미만일 경우(ORDER_CONFIRM)에만 주문 취소가 되도록 한다.
+        // OrderStatus의 step이 2 미만일 경우(ORDER_CONFIRM)에만 주문 취소가 되도록한다.
         if (step >= 2) {
             throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_ORDER);
         }

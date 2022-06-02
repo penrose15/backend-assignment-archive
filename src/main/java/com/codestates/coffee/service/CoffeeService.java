@@ -1,10 +1,10 @@
 package com.codestates.coffee.service;
 
-import com.codestates.coffee.CoffeeRepository;
+import com.codestates.coffee.repository.CoffeeRepository;
 import com.codestates.coffee.entity.Coffee;
 import com.codestates.exception.BusinessLogicException;
 import com.codestates.exception.ExceptionCode;
-import com.codestates.order.Order;
+import com.codestates.order.entity.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +48,7 @@ public class CoffeeService {
         return findVerifiedCoffeeByQuery(coffeeId);
     }
 
+    // 주문에 해당하는 커피 정보 조회
     public List<Coffee> findOrderedCoffees(Order order) {
         return order.getOrderCoffees()
                 .stream()
@@ -80,7 +81,7 @@ public class CoffeeService {
     }
 
     private Coffee findVerifiedCoffeeByQuery(long coffeeId) {
-        Optional<Coffee> optionalCoffee = coffeeRepository.findByCoffeeId(coffeeId);
+        Optional<Coffee> optionalCoffee = coffeeRepository.findById(coffeeId);
         Coffee findCoffee =
                 optionalCoffee.orElseThrow(() ->
                         new BusinessLogicException(ExceptionCode.COFFEE_NOT_FOUND));

@@ -3,8 +3,7 @@ package com.codestates.order.mapper;
 import com.codestates.coffee.dto.CoffeeResponseDto;
 import com.codestates.coffee.entity.Coffee;
 import com.codestates.coffee.entity.CoffeeRef;
-import com.codestates.order.Order;
-import com.codestates.order.dto.OrderCoffeeDto;
+import com.codestates.order.entity.Order;
 import com.codestates.order.dto.OrderPostDto;
 import com.codestates.order.dto.OrderResponseDto;
 import org.mapstruct.Mapper;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-// TODO V10
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     // TODO 수정되었음.

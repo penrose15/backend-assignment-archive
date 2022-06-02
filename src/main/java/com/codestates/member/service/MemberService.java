@@ -13,6 +13,7 @@ import java.util.Optional;
  * V2
  *  - 메서드 구현
  *  - DI 적용
+ *  - Spring Data JDBC 적용
  */
 @Service
 public class MemberService {

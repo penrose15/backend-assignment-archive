@@ -2,7 +2,6 @@ package com.codestates.coffee.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Getter

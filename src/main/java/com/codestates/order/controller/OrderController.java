@@ -1,8 +1,9 @@
-package com.codestates.order;
+package com.codestates.order.controller;
 
-import com.codestates.coffee.dto.CoffeeResponseDto;
 import com.codestates.coffee.entity.Coffee;
 import com.codestates.coffee.service.CoffeeService;
+import com.codestates.order.entity.Order;
+import com.codestates.order.service.OrderService;
 import com.codestates.order.dto.OrderPostDto;
 import com.codestates.order.dto.OrderResponseDto;
 import com.codestates.order.mapper.OrderMapper;
@@ -23,7 +24,7 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderMapper mapper;
     private final CoffeeService coffeeService;
-    
+
     public OrderController(OrderService orderService,
                            OrderMapper mapper,
                            CoffeeService coffeeService) {

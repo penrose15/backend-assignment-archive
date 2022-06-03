@@ -21,7 +21,7 @@ public class Order {
     @Id
     private long orderId;
 
-    // 테이블 외래키처럼 memberId를 추가해서 참조하도록 한다.
+    // 테이블 외래키처럼 memberId를 추가해서 참조하도록 한다..
     private AggregateReference<Member, Long> memberId;
 
     @MappedCollection(idColumn = "ORDER_ID")

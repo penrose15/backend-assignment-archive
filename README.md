@@ -1,4 +1,4 @@
-# restapiGET
+# rest api GET구현
 
 스프링을 이용해 REST API GET을 구현했습니다.
 

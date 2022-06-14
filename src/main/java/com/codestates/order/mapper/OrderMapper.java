@@ -1,8 +1,9 @@
 package com.codestates.order.mapper;
 
-import com.codestates.coffee.dto.CoffeeResponseDto;
 import com.codestates.coffee.entity.Coffee;
 import com.codestates.coffee.entity.CoffeeRef;
+import com.codestates.coffee.service.CoffeeService;
+import com.codestates.order.dto.OrderCoffeeResponseDto;
 import com.codestates.order.entity.Order;
 import com.codestates.order.dto.OrderPostDto;
 import com.codestates.order.dto.OrderResponseDto;
@@ -30,17 +31,13 @@ public interface OrderMapper {
         return order;
     }
 
-    default OrderResponseDto orderToOrderResponseDto(Order order, List<Coffee> coffees) {
-        List<CoffeeResponseDto> orderCoffees =
-                coffees
-                        .stream()
-                        .map(coffee ->
-                                new CoffeeResponseDto(coffee.getCoffeeId(),
-                                        coffee.getKorName(),
-                                        coffee.getEngName(),
-                                        coffee.getPrice()))
-                        .collect(Collectors.toList());
+    default OrderResponseDto orderToOrderResponseDto(CoffeeService coffeeService,
+                                                     Order order) {
+
         long memberId = order.getMemberId().getId();
+
+        List<OrderCoffeeResponseDto> orderCoffees =
+                orderToOrderCoffeeResponseDto(coffeeService, order.getOrderCoffees());
 
         OrderResponseDto orderResponseDto = new OrderResponseDto();
         orderResponseDto.setOrderCoffees(orderCoffees);
@@ -52,5 +49,19 @@ public interface OrderMapper {
         // TODO 주문에 대한 더 자세한 정보로의 변환은 요구 사항에 따라 다를 수 있습니다.
 
         return orderResponseDto;
+    }
+
+    default List<OrderCoffeeResponseDto> orderToOrderCoffeeResponseDto(
+                                                        CoffeeService coffeeService,
+                                                        Set<CoffeeRef> orderCoffees) {
+        return orderCoffees.stream()
+                .map(coffeeRef -> {
+                    Coffee coffee = coffeeService.findCoffee(coffeeRef.getCoffeeId());
+                    return new com.codestates.order.dto.OrderCoffeeResponseDto(coffee.getCoffeeId(),
+                            coffee.getKorName(),
+                            coffee.getEngName(),
+                            coffee.getPrice(),
+                            coffeeRef.getQuantity());
+                }).collect(Collectors.toList());
     }
 }

@@ -2,8 +2,8 @@
 
 * @RequestParam : 요청의 파라미터에 연결할 매개변수에 붙는 어노테이션이다.
 
+
 ```
-java
 @PostMapping
 public ResponseEntity postMethod(@RequestParam(name="쿼리스트링 이름", required=true/false) 파라미터타입 매개변수명) {...}
 ```

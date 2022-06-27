@@ -1,10 +1,15 @@
 package com.codestates.member;
 
+import org.springframework.stereotype.Component;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+@Component
 public class MemberPostDto {
+    @NotBlank
+    private long memberId;
     @NotBlank
     @Email
     private String email;
@@ -38,5 +43,13 @@ public class MemberPostDto {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(long memberId) {
+        this.memberId = memberId;
     }
 }

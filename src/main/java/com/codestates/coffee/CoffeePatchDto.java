@@ -2,10 +2,11 @@ package com.codestates.coffee;
 
 import com.codestates.validator.NotSpace;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Pattern;
 import java.util.Optional;
-
+@Component
 public class CoffeePatchDto {
     private long coffeeId;
 
@@ -15,7 +16,8 @@ public class CoffeePatchDto {
     @Pattern(regexp = "^([A-Za-z])(\\s?[A-Za-z])*$", message = "커피명(영문)은 영문이어야 합니다. 예) Cafe Latte")
     private String engName;
 
-    private Optional<@Range(min= 100, max= 50000) Integer> price = Optional.empty();
+    @Range(min = 100, max = 50000)
+    private Integer price;
 
     public long getCoffeeId() {
         return coffeeId;
@@ -41,11 +43,11 @@ public class CoffeePatchDto {
         this.engName = engName;
     }
 
-    public Optional<Integer> getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Optional<Integer> price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }

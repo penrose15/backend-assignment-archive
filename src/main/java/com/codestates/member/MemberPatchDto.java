@@ -1,14 +1,20 @@
 package com.codestates.member;
 
 import com.codestates.validator.NotSpace;
+import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-
+@Component
 public class MemberPatchDto {
     private long memberId;
 
     @NotSpace(message = "회원 이름은 공백이 아니어야 합니다")
     private String name;
+
+   @Email
+   private String email;
 
     @NotSpace(message = "휴대폰 번호는 공백이 아니어야 합니다")
     @Pattern(regexp = "^010-\\d{3,4}-\\d{4}$",
@@ -37,5 +43,13 @@ public class MemberPatchDto {
 
     public void setMemberId(long memberId) {
         this.memberId = memberId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

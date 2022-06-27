@@ -7,15 +7,30 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 
 @RestController
 @RequestMapping("/v1/members")
 @Validated
 public class MemberController {
+
+    private final MemberService memberService;
+    private final MemberMapper mapper;
+    public MemberController(MemberService memberService, MemberMapper mapper) {
+        this.memberService = memberService;
+        this.mapper = mapper;
+    }
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberPostDto memberDto) {
-        return new ResponseEntity<>(memberDto, HttpStatus.CREATED);
+        //MemberPostDto --(Mapper)-->Member
+        Member member = mapper.memberPostDtoToMember(memberDto);
+        Member response = memberService.createMember(member);
+
+        //Member--(Mapper)-->MemberResponseDto
+        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{member-id}")
@@ -24,8 +39,10 @@ public class MemberController {
         memberPatchDto.setMemberId(memberId);
 
         // No need Business logic
-
-        return new ResponseEntity<>(memberPatchDto, HttpStatus.OK);
+        //MemberPatchDto--(Mapper)-->Member
+        Member response = memberService.updateMember(mapper.memberPatchDtoToMember(memberPatchDto));
+        //Member --(Mapper)-->MemberPatchDto
+        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response),HttpStatus.OK);
     }
 
     @GetMapping("/{member-id}")
@@ -33,7 +50,8 @@ public class MemberController {
         System.out.println("# memberId: " + memberId);
 
         // not implementation
-        return new ResponseEntity<>(HttpStatus.OK);
+        Member response = memberService.findMember(memberId);
+        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response),HttpStatus.OK);
     }
 
     @GetMapping
@@ -41,8 +59,12 @@ public class MemberController {
         System.out.println("# get Members");
 
         // not implementation
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<Member> members = memberService.findMembers();
+        List<MemberResponseDto> response = members.stream()
+                .map(member -> mapper.memberToMemberResponseDto(member))
+                .collect(Collectors.toList());
+        //List<Member>안의 객체들을 하나씩 꺼내어 MemberResponceDto객체로 변환
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @DeleteMapping("/{member-id}")
@@ -50,6 +72,7 @@ public class MemberController {
         System.out.println("# deleted memberId: " + memberId);
         // No need business logic
 
+        memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

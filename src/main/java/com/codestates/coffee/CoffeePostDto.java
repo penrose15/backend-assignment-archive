@@ -1,11 +1,13 @@
 package com.codestates.coffee;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-
+@Component
 public class CoffeePostDto {
+    private long coffeeId;
     @NotBlank
     private String korName;
 
@@ -39,5 +41,13 @@ public class CoffeePostDto {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public long getCoffeeId() {
+        return coffeeId;
+    }
+
+    public void setCoffeeId(long coffeeId) {
+        this.coffeeId = coffeeId;
     }
 }

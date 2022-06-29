@@ -57,7 +57,8 @@ public interface OrderMapper {
         return orderCoffees.stream()
                 .map(coffeeRef -> {
                     Coffee coffee = coffeeService.findCoffee(coffeeRef.getCoffeeId());
-                    return new com.codestates.order.dto.OrderCoffeeResponseDto(coffee.getCoffeeId(),
+
+                    return new OrderCoffeeResponseDto(coffee.getCoffeeId(),
                             coffee.getKorName(),
                             coffee.getEngName(),
                             coffee.getPrice(),

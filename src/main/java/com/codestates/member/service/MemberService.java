@@ -4,6 +4,7 @@ import com.codestates.exception.BusinessLogicException;
 import com.codestates.exception.ExceptionCode;
 import com.codestates.member.entity.Member;
 import com.codestates.member.repository.MemberRepository;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +18,11 @@ import java.util.Optional;
  */
 @Service
 public class MemberService {
-    private MemberRepository memberRepository;
-
-    public MemberService(MemberRepository memberRepository) {
+    private final MemberRepository memberRepository;
+    private final JdbcTemplate jdbcTemplate;
+    public MemberService(MemberRepository memberRepository, JdbcTemplate jdbcTemplate) {
         this.memberRepository = memberRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public Member createMember(Member member) {

@@ -21,13 +21,14 @@ public interface OrderMapper {
     default Order orderPostDtoToOrder(OrderPostDto orderPostDto) {
         Order order = new Order();
         order.setMemberId(new AggregateReference.IdOnlyAggregateReference(orderPostDto.getMemberId()));
-        Set<CoffeeRef> orderCoffees = orderPostDto.getOrderCoffees()
-                .stream()
-                .map(orderCoffeeDto -> new CoffeeRef(orderCoffeeDto.getCoffeeId(),
-                        orderCoffeeDto.getQuantity()))
+        Set<CoffeeRef> orderCoffees =
+                orderPostDto.getOrderCoffees()
+                        .stream()
+                        .map(orderCoffeeDto ->
+                                new CoffeeRef(orderCoffeeDto.getCoffeeId(), orderCoffeeDto.getQuantity()))
                 .collect(Collectors.toSet());
         order.setOrderCoffees(orderCoffees);
-        order.setCreatedAt(LocalDateTime.now());
+
         return order;
     }
 

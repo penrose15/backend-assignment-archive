@@ -5,10 +5,11 @@ import com.codestates.coffee.dto.CoffeePostDto;
 import com.codestates.coffee.dto.CoffeeResponseDto;
 import com.codestates.coffee.entity.Coffee;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CoffeeMapper {
     Coffee coffeePostDtoToCoffee(CoffeePostDto coffeePostDto);
     Coffee coffeePatchDtoToCoffee(CoffeePatchDto coffeePatchDto);

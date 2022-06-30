@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 //TODO 필드 추가 됨
 @Getter
 @Setter
-@AllArgsConstructor
 public class Coffee {
     @Id
     private long coffeeId;

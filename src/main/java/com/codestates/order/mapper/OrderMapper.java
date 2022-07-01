@@ -8,14 +8,14 @@ import com.codestates.order.entity.Order;
 import com.codestates.order.dto.OrderPostDto;
 import com.codestates.order.dto.OrderResponseDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface OrderMapper {
     // TODO 수정되었음.
     default Order orderPostDtoToOrder(OrderPostDto orderPostDto) {

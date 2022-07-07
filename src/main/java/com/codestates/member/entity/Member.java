@@ -42,6 +42,17 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "STAMP_Id")
+    private Stamp stamp;
+    //일단 주 테이블인 Member 클래스에 외래키를 두기로 결정
+    //둘다 해봐야지...
+
+    public void addStamp(Stamp stamp) {
+        this.stamp = stamp;
+    }
+
+
     public Member(String email) {
         this.email = email;
     }

@@ -1,5 +1,6 @@
 package com.codestates.order.controller;
 
+import com.codestates.coffee.entity.Coffee;
 import com.codestates.coffee.service.CoffeeService;
 import com.codestates.response.MultiResponseDto;
 import com.codestates.response.SingleResponseDto;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -41,8 +43,14 @@ public class OrderController {
 
         // TODO JPA 기능에 맞춰서 회원이 주문한 커피 정보를 ResponseEntity에 포함 시키세요.
 
+            List<Coffee> coffeeList = order.getOrderCoffees().stream()
+                    .map(coffee -> coffee.getCoffee()).collect(Collectors.toList());
+            //회원이 주문한 커피 정보
+
+
+
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.orderToOrderResponseDto(order, null)),
+                new SingleResponseDto<>(mapper.orderToOrderResponseDto(order, coffeeList)),
                 HttpStatus.CREATED);
     }
 
@@ -63,9 +71,9 @@ public class OrderController {
         Order order = orderService.findOrder(orderId);
 
         // TODO JPA 기능에 맞춰서 회원이 주문한 커피 정보를 ResponseEntity에 포함 시키세요.
-
+        List<Coffee> coffeeList = coffeeService.findCoffeeByOrders(order);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.orderToOrderResponseDto(order, null)),
+                new SingleResponseDto<>(mapper.orderToOrderResponseDto(order, coffeeList)),
                 HttpStatus.OK);
     }
 
@@ -74,11 +82,13 @@ public class OrderController {
                                     @Positive @RequestParam int size) {
         Page<Order> pageOrders = orderService.findOrders(page - 1, size);
         List<Order> orders = pageOrders.getContent();
-
+        Order order = new Order();
+        List<Coffee> coffeeList = coffeeService.findCoffeeByOrders(order);
         // TODO JPA 기능에 맞춰서 회원이 주문한 커피 정보 목록을 ResponseEntity에 포함 시키세요.
 
+
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.ordersToOrderResponseDtos(orders), pageOrders),
+                new MultiResponseDto<>(mapper.ordersToOrderResponseDtos(orders, coffeeList), pageOrders),
                 HttpStatus.OK);
     }
 

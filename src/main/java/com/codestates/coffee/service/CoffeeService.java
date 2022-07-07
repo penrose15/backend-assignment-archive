@@ -4,12 +4,15 @@ import com.codestates.coffee.entity.Coffee;
 import com.codestates.coffee.repository.CoffeeRepository;
 import com.codestates.exception.BusinessLogicException;
 import com.codestates.exception.ExceptionCode;
+import com.codestates.order.entity.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CoffeeService {
@@ -56,6 +59,17 @@ public class CoffeeService {
         return coffeeRepository.findAll(PageRequest.of(page, size,
                 Sort.by("coffeeId").descending()));
     }
+    public List<Coffee> findCoffeeByOrders(Order order) {
+       List<Coffee> coffees =  order.getOrderCoffees().stream().map(c -> c.getCoffee()).collect(Collectors.toList());
+       return coffees;
+    }
+    public void verifiedCoffee(Order order) {
+        List<Coffee> coffees = findCoffeeByOrders(order);
+        for(Coffee c : coffees) {
+            findVerifiedCoffee(c.getCoffeeId());
+        }
+    }
+
 
     public void deleteCoffee(long coffeeId) {
         Coffee coffee = findVerifiedCoffee(coffeeId);
@@ -76,6 +90,7 @@ public class CoffeeService {
         if(coffee.isPresent())
             throw new BusinessLogicException(ExceptionCode.COFFEE_CODE_EXISTS);
     }
+
 
     private Coffee findVerifiedCoffeeByQuery(long coffeeId) {
         Optional<Coffee> optionalCoffee = coffeeRepository.findByCoffee(coffeeId);

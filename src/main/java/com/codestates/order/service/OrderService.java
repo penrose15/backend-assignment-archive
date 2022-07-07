@@ -1,9 +1,12 @@
 package com.codestates.order.service;
 
+import com.codestates.coffee.service.CoffeeService;
 import com.codestates.exception.BusinessLogicException;
 import com.codestates.exception.ExceptionCode;
+import com.codestates.member.entity.Member;
 import com.codestates.member.service.MemberService;
 import com.codestates.order.entity.Order;
+import com.codestates.order.entity.OrderCoffee;
 import com.codestates.order.repository.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,24 +14,29 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OrderService {
     private final MemberService memberService;
     private final OrderRepository orderRepository;
+    private final CoffeeService coffeeService;
 
     public OrderService(MemberService memberService,
-                        OrderRepository orderRepository) {
+                        OrderRepository orderRepository, CoffeeService coffeeService) {
         this.memberService = memberService;
         this.orderRepository = orderRepository;
+        this.coffeeService = coffeeService;
     }
 
     public Order createOrder(Order order) {
         // 회원이 존재하는지 확인
         memberService.findVerifiedMember(order.getMember().getMemberId());
-
+        coffeeService.verifiedCoffee(order);
         // TODO 커피가 존재하는지 조회하는 로직이 포함되어야 합니다.
+
+        //stampCount(order);
 
         return orderRepository.save(order);
     }
@@ -72,4 +80,24 @@ public class OrderService {
                         new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
         return findOrder;
     }
+
+//    private void stampCount(Order order) {
+//        List<OrderCoffee> list = orderCoffees(order);
+//        int count = 0;
+//        for(OrderCoffee o : list) {
+//            int x = o.getQuantity();
+//            count +=x;
+//        }
+//
+//        Long memberId = order.getMember().getMemberId();
+//        Member member = memberService.findVerifiedMember(memberId);
+//
+//
+//        member.getStamp().setStampCount(member.getStamp().getStampCount() + count);
+//    }
+
+//    private List<OrderCoffee> orderCoffees(Order orders) {
+//        Order order = findVerifiedOrder(orders.getOrderId());
+//        return order.getOrderCoffees();
+//    }
 }

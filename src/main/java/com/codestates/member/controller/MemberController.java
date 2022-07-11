@@ -36,6 +36,7 @@ public class MemberController {
     public MemberController(MemberService memberService, MemberMapper mapper) {
         this.memberService = memberService;
         this.mapper = mapper;
+
     }
 
     @PostMapping

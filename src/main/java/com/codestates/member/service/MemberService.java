@@ -43,7 +43,7 @@ public class MemberService {
 
         this.applicationEventPublisher = applicationEventPublisher;
     }
-
+    @Transactional
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
         Member savedMember = memberRepository.save(member);
@@ -61,7 +61,7 @@ public class MemberService {
          *      - 이벤트 리스너(Event Listener)가 이메일을 보내고 실패할 경우 이미 저장된 회원 정보를 삭제할 수 있습니다.
          */
 
-
+        applicationEventPublisher.publishEvent(new Event(savedMember));
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
@@ -72,7 +72,7 @@ public class MemberService {
                 throw new RuntimeException(e);
             }
         });
-        applicationEventPublisher.publishEvent(new Event(savedMember));
+
 
         return savedMember;
     }

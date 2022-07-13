@@ -5,6 +5,8 @@ import com.codestates.member.entity.Member;
 import com.codestates.member.repository.MemberRepository;
 import com.codestates.stamp.Stamp;
 import com.google.gson.Gson;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,6 +36,26 @@ public class MemberControllerHomeworkTest {
 
     @Autowired
     private MemberRepository memberRepository;
+    private MemberDto.Post post;
+    private MvcResult postResult;
+
+    @BeforeEach
+    public void init() throws Exception {
+        Member member = new Member();
+        for(int i = 0; i<10; i++) {
+            member.setEmail(String.format("hhy%d@naver.com",i));
+            member.setName(String.format("하현우%d",i));
+            member.setPhone(String.format("010-1111-11%02d",i));
+            member.setStamp(new Stamp());
+            memberRepository.save(member);
+        }
+
+    }
+
+
+
+
+
 
     @Test
     void postMemberTest() throws Exception {
@@ -67,15 +89,6 @@ public class MemberControllerHomeworkTest {
     @Test
     void patchMemberTest() throws Exception {
         // TODO MemberController의 patchMember() 핸들러 메서드를 테스트하는 테스트 케이스를 여기에 작성하세요.
-//        MemberDto.Post post = new MemberDto.Post("hgd@gmail.com",
-//                "홍길동",
-//                "010-1234-5678");
-//        String contents = gson.toJson(post);
-        Member member = new Member("hgd@gmail.com",
-                "홍길동",
-                "010-1234-5678");
-        member.setStamp(new Stamp());
-        memberRepository.save(member);
 
         //given
         MemberDto.Patch patch = new MemberDto.Patch(1L, "홍길동2", "010-1111-2222", Member.MemberStatus.MEMBER_ACTIVE);
@@ -117,7 +130,7 @@ public class MemberControllerHomeworkTest {
 
         //when
         ResultActions actions = mockMvc.perform(
-                get("/v11/members/{member-id}",1)
+                get("/v11/members/{member-id}",2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
 
@@ -142,19 +155,19 @@ public class MemberControllerHomeworkTest {
         // TODO MemberController의 getMembers() 핸들러 메서드를 테스트하는 테스트 케이스를 여기에 작성하세요.
 
 
-        for(int i = 0;i< 30;i++) {
-            Member member1 = new Member();
-            member1.setMemberId((long)i);
-            member1.setPhone(String.format("010-1111-11%02d",i));
-            member1.setEmail("hgd"+(i)+"@gmail.com");
-            member1.setName("홍길동"+i);
-            member1.setStamp(new Stamp());
-            memberRepository.save(member1);
-        }
+//        for(int i = 0;i< 30;i++) {
+//            Member member1 = new Member();
+//            member1.setMemberId((long)i);
+//            member1.setPhone(String.format("010-1111-11%02d",i));
+//            member1.setEmail("hgd"+(i)+"@gmail.com");
+//            member1.setName("홍길동"+i);
+//            member1.setStamp(new Stamp());
+//            memberRepository.save(member1);
+//        }
 
         //when
         int page = 1;
-        int size = 10;
+        int size = 5;
         ResultActions actions = mockMvc.perform(
                 get("/v11/members")
                         .param("page",String.valueOf(page))
@@ -167,8 +180,9 @@ public class MemberControllerHomeworkTest {
         //then
         MvcResult result = actions
                 .andExpect(status().isOk()) //pageinfo.totalPages
-                .andExpect(jsonPath("$.pageInfo.totalElements").value(29))
-                .andExpect(jsonPath("$.pageInfo.totalPages").value(3))
+                .andExpect(jsonPath("$.pageInfo.totalElements").value(1))
+                .andExpect(jsonPath("$.pageInfo.totalPages").value(1))
+                .andExpect(jsonPath("$.data").isArray())
                 .andReturn();
 
         System.out.println(result.getResponse().getContentAsString());
@@ -177,11 +191,11 @@ public class MemberControllerHomeworkTest {
     @Test
     void deleteMemberTest() throws Exception {
         // TODO MemberController의 deleteMember() 핸들러 메서드를 테스트하는 테스트 케이스를 여기에 작성하세요.
-        Member member = new Member("hgd@gmail.com",
-                "홍길동",
-                "010-1234-5678");
-        member.setStamp(new Stamp());
-        memberRepository.save(member);
+//        Member member = new Member("hgd@gmail.com",
+//                "홍길동",
+//                "010-1234-5678");
+//        member.setStamp(new Stamp());
+//        memberRepository.save(member);
 
         //when
         ResultActions actions = mockMvc.perform(

@@ -8,11 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/food")
 public class FoodController {
@@ -25,7 +28,7 @@ public class FoodController {
     }
 
     @PostMapping
-    public ResponseEntity createFood(@RequestBody FoodPostDto foodPostDto) {
+    public ResponseEntity createFood(@RequestBody @Valid FoodPostDto foodPostDto) {
         Food food = foodService.createFood(mapper.foodPostDtoToFood(foodPostDto));
 
         return new ResponseEntity<>(mapper.foodToFoodResponseDto(food), HttpStatus.CREATED);
@@ -33,16 +36,16 @@ public class FoodController {
 
     @PatchMapping("/{food-id}")
     public ResponseEntity updateFood(@PathVariable("food-id") @Positive long id,
-                                     @RequestBody FoodPatchDto foodPatchDto) {
+                                     @RequestBody @Valid FoodPatchDto foodPatchDto) {
         foodPatchDto.setId(id);
         Food food = foodService.updateFood(mapper.foodPatchDtoToFood(foodPatchDto));
 
         return new ResponseEntity<>(mapper.foodToFoodResponseDto(food), HttpStatus.OK);
     }
 
-    @GetMapping("/rand")
-    public ResponseEntity getFoodRandom() {
-        Food food = foodService.getRandomFood();
+    @GetMapping("/rand/{bld}")
+    public ResponseEntity getFoodRandom(@PathVariable("bld") String bld) {
+        Food food = foodService.getRandomFood(Food.BLD.valueOf(bld));
 
         return new ResponseEntity<>(mapper.foodToFoodResponseDto(food),HttpStatus.OK);
 

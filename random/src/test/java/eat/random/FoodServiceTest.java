@@ -38,25 +38,26 @@ public class FoodServiceTest {
 
 
 
-        Food food = new Food("감자");
-        Food food1 = new Food("고구마");
-        Food food2 = new Food("당근");
-        Food food3 = new Food("오이");
-        Food food4 = new Food("양상추");
+        Food food = new Food("감자",Food.BLD.BREAKFAST);
+        Food food1 = new Food("고구마",Food.BLD.BREAKFAST);
+        Food food2 = new Food("당근",Food.BLD.BREAKFAST);
+        Food food3 = new Food("오이",Food.BLD.BREAKFAST);
+        Food food4 = new Food("양상추",Food.BLD.BREAKFAST);
 
         Food f = foodService.createFood(food);
 
         Food f1 = foodRepository.save(food);
 
         assertThat(f.getName()).isEqualTo(f1.getName());
+        assertThat(f.getBld()).isEqualTo(f1.getBld());
     }
     @Test
     public void getTest() {
-        Food food = new Food("감자");
-        Food food1 = new Food("고구마");
-        Food food5 = new Food("당근");
-        Food food6 = new Food("오이");
-        Food food7 = new Food("양상추");
+        Food food = new Food("감자",Food.BLD.BREAKFAST);
+        Food food1 = new Food("고구마",Food.BLD.BREAKFAST);
+        Food food5 = new Food("당근",Food.BLD.BREAKFAST);
+        Food food6 = new Food("오이",Food.BLD.DINNER);
+        Food food7 = new Food("양상추",Food.BLD.DINNER);
 
         Food food3 =  foodRepository.save(food);
         Food food4 = foodRepository.save(food1);
@@ -64,22 +65,20 @@ public class FoodServiceTest {
         foodRepository.save(food6);
         foodRepository.save(food7);
 
-        List<Food> list = foodRepository.findAll();
+        List<Food> list = foodRepository.findAllName(Food.BLD.BREAKFAST);
 
 
-        Food food2 = foodService.getRandomFood();
-        Food food8 = foodService.getRandomFood();
-        Food food9 = foodService.getRandomFood();
-        Food food10 = foodService.getRandomFood();
+        Food food2 = foodService.getRandomFood(Food.BLD.BREAKFAST);
+
+        Food food10 = foodService.getRandomFood(Food.BLD.DINNER);
 
         for(Food a : list) {
             System.out.println(a.getName());
+            System.out.println(a.getBld().getStatus());
         }
         System.out.println("");
 
-        System.out.println(food2.getName());
-        System.out.println(food8.getName());
-        System.out.println(food9.getName());
+        System.out.println(food2.getName() + food2.getBld().getStatus());
         System.out.println(food10.getName());
 
         //assertThat(food2).is;
@@ -87,11 +86,11 @@ public class FoodServiceTest {
     }
     @Test
     public void findAllTest() {
-        Food food = new Food("감자");
-        Food food1 = new Food("고구마");
-        Food food5 = new Food("당근");
-        Food food6 = new Food("오이");
-        Food food7 = new Food("양상추");
+        Food food = new Food("감자", Food.BLD.BREAKFAST);
+        Food food1 = new Food("고구마",Food.BLD.BREAKFAST);
+        Food food5 = new Food("당근",Food.BLD.BREAKFAST);
+        Food food6 = new Food("오이",Food.BLD.BREAKFAST);
+        Food food7 = new Food("양상추",Food.BLD.BREAKFAST);
 
         Food food3 =  foodRepository.save(food);
         Food food4 = foodRepository.save(food1);

@@ -21,7 +21,24 @@ public class Food {
     @Column(nullable = false, unique = true)
     private String name;
 
-    public Food(String name) {
+    @Enumerated(value =EnumType.STRING)
+    private BLD bld;
+
+    public enum BLD {
+        BREAKFAST("BREAKFAST"),
+        LUNCH("LUNCH"),
+        DINNER("DINNER");
+
+        @Getter
+        private String status;
+
+        BLD(String status) {
+            this.status = status;
+        }
+    }
+
+    public Food(String name, Food.BLD bld) {
         this.name = name;
+        this.bld = bld;
     }
 }

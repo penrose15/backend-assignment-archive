@@ -30,6 +30,8 @@ public class FoodService {
         verifiedExistFoodByName(food.getName()); //DB에 있는 이름으로 바꾸려 하면 예외 던짐
         Optional.ofNullable(food.getName())
                 .ifPresent(name -> findFood.setName(name));
+        Optional.ofNullable(food.getBld())
+                .ifPresent(b -> findFood.setBld(b));
         return findFood;
     }
     public Page<Food> findFoods(int page, int size) { //food 리스트 조회
@@ -53,11 +55,16 @@ public class FoodService {
 
     }
 
-    public Food getRandomFood() { //랜덤으로 음식 하나 뽑기
-        long count =  foodRepository.count();
-        int random = (int)(Math.random()*(int)count) + 1;
-        Optional<Food> optionalFood = foodRepository.findById((long)random);
-        Food food = optionalFood.orElseThrow(()-> new NoSuchElementException("#"));
+    public Food getRandomFood(Food.BLD bld) { //랜덤으로 음식 하나 뽑기
+        List<Food> foodList = foodRepository.findAllName(bld);
+        long count =  foodList.size();
+        int random = (int)(Math.random()*(int)count);
+
+        if(foodList.size() == 0) throw new NoSuchElementException("해당되는 음식이 없음");
+        Food food = foodList.get(random);
+        if(food == null) {
+            throw new NoSuchElementException("존재하지 않습니다.");
+        }
 
         return food;
     }

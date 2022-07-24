@@ -1,5 +1,6 @@
 package eat.random.foodDto;
 
+import eat.random.Food;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,6 +16,8 @@ public class FoodPatchDto {
     @NotBlank
     @Pattern(regexp = "^[가-힣]+$")
     private String name;
+
+    private Food.BLD bld;
 
     public void setId(long id) {
         this.id = id;
